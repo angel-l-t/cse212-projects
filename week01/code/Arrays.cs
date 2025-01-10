@@ -13,7 +13,17 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        // Initialize an array of doubles with the length specified
+        double[] multiples = new double[length];
+
+        // Loop from 1 to the range of length and add the multiple of 'number' to the list
+        for (int i = 1; i <= length; i++)
+        {
+            multiples[i - 1] = number * i;
+        }
+
+        // Return the array
+        return multiples; // replace this return statement with your own
     }
 
     /// <summary>
@@ -29,5 +39,20 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        // First slice - Using slicing, slice from the end of the list minus amount to the end
+        List<int> firstSlice = data.GetRange(data.Count - amount, amount);
+
+        // Second slice - Using slicing, slice from the start of the list to the end minus amount
+        List<int> secondSlice = data.GetRange(0, data.Count - amount);
+
+        // Delete all numbers from data
+        data.Clear();
+
+        // Append first slice to data
+        data.AddRange(firstSlice);
+
+        // Append second slice to data
+        data.AddRange(secondSlice);
     }
 }
