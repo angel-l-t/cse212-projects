@@ -45,6 +45,8 @@
             Console.WriteLine("I got the exception as expected.");
         }
         // Defect(s) Found: 
+        // - Enqueue was inserting at the front of the queue, not the back
+        // - Dequeue was removing from the second position, not the first
     }
 
     private readonly List<int> _queue = new();
@@ -54,7 +56,7 @@
     /// </summary>
     /// <param name="value">Integer value to add to the queue</param>
     private void Enqueue(int value) {
-        _queue.Insert(0, value);
+        _queue.Insert(_queue.Count, value);
     }
 
     /// <summary>
@@ -66,8 +68,8 @@
         if (_queue.Count <= 0)
             throw new IndexOutOfRangeException();
 
-        var value = _queue[1];
-        _queue.RemoveAt(1);
+        var value = _queue[0];
+        _queue.RemoveAt(0);
         return value;
     }
 }
