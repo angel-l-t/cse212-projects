@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 
 public static class SetsAndMaps
@@ -21,9 +22,32 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+    var result = new List<string>();
+    var seen = new HashSet<string>();
+
+    foreach (var word in words)
+    {
+        if (word[0] == word[1]) 
+            continue;
+
+        string reversed = $"{word[1]}{word[0]}";
+
+        if (seen.Contains(reversed))
+        {
+            string pair = $"{word} & {reversed}";
+            string reversePair = $"{reversed} & {word}";
+            
+            if (!result.Contains(pair) && !result.Contains(reversePair))
+            {
+                result.Add(pair);
+            }
+        }
+
+        seen.Add(word);
     }
+
+    return result.ToArray();
+}
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
@@ -43,6 +67,10 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            if (!degrees.TryAdd(fields[3], 1))
+            {
+                degrees[fields[3]] += 1;
+            }
         }
 
         return degrees;
@@ -67,7 +95,26 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        Dictionary<char, int> dict1 = new Dictionary<char, int>();
+        Dictionary<char, int> dict2 = new Dictionary<char, int>();
+
+        foreach (var letter in word1)
+        {
+            if (letter != ' ' && !dict1.TryAdd(char.ToLower(letter), 1))
+            {
+                dict1[char.ToLower(letter)] += 1;
+            }
+        }
+
+        foreach (var letter in word2)
+        {
+            if (letter != ' ' && !dict2.TryAdd(char.ToLower(letter), 1))
+            {
+                dict2[char.ToLower(letter)] += 1;
+            }
+        }
+
+        return dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
     }
 
     /// <summary>
@@ -101,6 +148,14 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        List<string> earthquakes = new();
+
+        foreach (var feature in featureCollection.Features)
+        {
+            earthquakes.Add(feature.Properties.Place + " - Mag " + feature.Properties.Mag);
+        }
+
+        return earthquakes.ToArray();
     }
 }

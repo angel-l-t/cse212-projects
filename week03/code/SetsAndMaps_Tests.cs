@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // DO NOT MODIFY THIS FILE
@@ -30,6 +31,8 @@ public class FindPairsTests
     {
         var actual = SetsAndMaps.FindPairs(["ab", "aa", "ba"]);
         var expected = new[] { "ba & ab" };
+
+        Debug.WriteLine(actual);
 
         Assert.AreEqual(expected.Length, actual.Length);
         Assert.AreEqual(Canonicalize(expected), Canonicalize(actual));
